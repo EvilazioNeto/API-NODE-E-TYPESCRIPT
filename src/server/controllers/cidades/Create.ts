@@ -9,11 +9,19 @@ interface ICidade {
 
 export const createValidation = validation((getSchema) => ({
     body: getSchema<ICidade>(yup.object().shape({
-        nome: yup.string().required().min(3)
+        nome: yup
+        .string()
+        .required()
+        .min(3)
+        .max(32)
+        .matches(/^[a-zA-ZÀ-ÿ ]*$/)
+        .test((value) => {
+            return value.trim().length > 0;
+        })
     }))
 }));
 
 export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
     console.log(req.body)
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Não implementado!')
+    return res.status(StatusCodes.CREATED).json(1)
 }
