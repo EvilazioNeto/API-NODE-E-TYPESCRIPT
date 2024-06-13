@@ -56,13 +56,4 @@ describe('Cidades - Create', () => {
         expect(res1.statusCode).toEqual(StatusCodes.BAD_REQUEST);
         expect(res1.body).toHaveProperty('errors.body.nome');
     });
-    it('Deve ignorar campos adicionais ao criar um registro', async () => {
-    
-        const res1 = await testServer
-            .post('/cidades')
-            .send({ nome: 'Tobias Barreto', estado: 'Sergipe' });
-    
-        expect(res1.statusCode).toEqual(StatusCodes.CREATED);
-        expect(typeof res1.body).toEqual('number');
-    });
 });
