@@ -16,8 +16,8 @@ export const updateByIdValidation = validation((getSchema) => ({
         id: yup.number().integer().required().moreThan(0),
     })),
     body: getSchema<IBodyProps>(yup.object().shape({
-        nome: yup.string().required().min(2).max(50),
-        sobrenome: yup.string().required().min(2).max(50),
+        nome: yup.string().required().min(2).max(80),
+        sobrenome: yup.string().required().min(2).max(80),
         email: yup.string().required().max(100).matches(/\S+@\S+\.\S+/),
         cpf: yup.string().required().length(11),
         cidadeId: yup.number().required().integer().positive()
