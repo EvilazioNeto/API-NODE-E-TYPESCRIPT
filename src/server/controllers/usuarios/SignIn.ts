@@ -15,26 +15,24 @@ export const signInValidation = validation((getSchema) => ({
 }));
 
 export const signIn = async (req: Request<{}, {}, IBodyProps>, res: Response) => {
-    const { email, senha } = req.body
-
+    const { email, senha } = req.body;
+  
     const result = await UsuariosProvider.getByEmail(email);
-
     if (result instanceof Error) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({
-            errors: {
-                default: 'Email ou senha são inválidos'
-            }
-        });
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        errors: {
+          default: 'Email ou senha são inválidos'
+        }
+      });
     }
-
+  
     if (senha !== result.senha) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({
-            errors: {
-                default: 'Email ou senha são inválidos'
-            }
-        });
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        errors: {
+          default: 'Email ou senha são inválidos'
+        }
+      });
     } else {
-        return res.status(StatusCodes.OK).json({ acessToken: 'teste.teste.test' });
+      return res.status(StatusCodes.OK).json({ accessToken: 'teste.teste.teste' });
     }
-
-};
+  };
