@@ -4,10 +4,24 @@ import { testServer } from '../jest.setup';
 
 
 describe('Pessoas - GetAll', () => {
+    let accessToken = '';
+    beforeAll(async () => {
+        const email = 'create2-cidades@gmail.com';
+        await testServer.post('/cadastrar').send({
+            nome: 'Teste',
+            email,
+            senha: '12345678'
+        })
+        const signInRes = await testServer.post('/entrar').send({ email, senha: '12345678' })
+
+        accessToken = signInRes.body.accessToken;
+    });
+
   it('Buscar todos os registros', async () => {
 
     const cidade = await testServer
       .post('/cidades')
+      .set({ Authorization: `Bearer ${accessToken}` })
       .send({ nome: 'Caxias do sul' })
       
       expect(cidade.statusCode).toEqual(StatusCodes.CREATED)
@@ -15,6 +29,7 @@ describe('Pessoas - GetAll', () => {
 
       const res1 = await testServer
           .post('/pessoas')
+          .set({ Authorization: `Bearer ${accessToken}` })
           .send({
               nome: "Evilazio",
               sobrenome: "Neto",
@@ -28,6 +43,7 @@ describe('Pessoas - GetAll', () => {
 
       const resBuscada = await testServer
       .get('/pessoas')
+      .set({ Authorization: `Bearer ${accessToken}` })
       .send();
 
 
